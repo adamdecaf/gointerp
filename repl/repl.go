@@ -7,6 +7,7 @@ import (
 	"github.com/adamdecaf/gointerp/eval"
 	"github.com/adamdecaf/gointerp/lexer"
 	"github.com/adamdecaf/gointerp/parser"
+	"github.com/adamdecaf/gointerp/object"
 )
 
 const PROMPT = ">> "
@@ -37,7 +38,8 @@ func Start(in io.Reader, out io.Writer) {
 			continue
 		}
 
-		evaluated := eval.Eval(program)
+		env := object.NewEnvironment()
+		evaluated := eval.Eval(program, env)
 		if evaluated != nil {
 			io.WriteString(out, evaluated.Inspect())
 			io.WriteString(out, "\n")
